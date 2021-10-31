@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Umbraco.Cms.Core" Version="9.0.1" />
     <PackageReference Include="Umbraco.Cms.Infrastructure" Version="9.0.1" />
   </ItemGroup>
