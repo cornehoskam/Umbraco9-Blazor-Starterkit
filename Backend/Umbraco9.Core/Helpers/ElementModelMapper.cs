@@ -16,7 +16,7 @@ namespace Umbraco9.Core.Helpers
         {
             if (element.Content is HeroElement heroElement)
             {
-                return new HeroElementBaseModel(heroElement);
+                return new HeroElementModel(heroElement);
             }
 
             return null;

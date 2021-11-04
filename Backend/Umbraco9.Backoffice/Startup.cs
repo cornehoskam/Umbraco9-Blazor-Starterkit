@@ -14,6 +14,8 @@ namespace Umbraco9.Backoffice
         private readonly IWebHostEnvironment _env;
         private readonly IConfiguration _config;
 
+        readonly string CustomAllowedOrigins = "_customAllowedOrigins";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup" /> class.
         /// </summary>
@@ -38,6 +40,17 @@ namespace Umbraco9.Backoffice
         /// </remarks>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: CustomAllowedOrigins, builder =>
+                {
+                    builder.WithOrigins("https://localhost:44315", "https://localhost:5001");
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowCredentials();
+                });
+            });
+
             services.AddUmbraco(_env, _config)
                 .AddBackOffice()
                 .AddWebsite()
@@ -56,6 +69,8 @@ namespace Umbraco9.Backoffice
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(CustomAllowedOrigins);
 
             app.UseUmbraco()
                 .WithMiddleware(u =>
