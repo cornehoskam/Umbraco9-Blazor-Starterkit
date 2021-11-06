@@ -1,20 +1,21 @@
 ﻿@page "/"
 @using Umbraco9.Blazor.Services
+@using Umbraco9.Core.Models.Elements
 @using Umbraco9.Core.Models.Pages
 @if (Model == null)
 {
     return;
 }
 <h1>@Model.Title</h1>
-<p>Total Elements on Homepage: @Model.Elements.FirstOrDefault()?.ModelContentType</p>
+<p>First Element on Homepage: @Model.Elements.FirstOrDefault()?.ModelContentType</p>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
-
+<HeroElementComponent Model="@HeroModel"/>
 
 @code
 {
     [Inject]public IContentDeliveryService ContentDeliveryService { get; set; }
     public HomepageModel Model { get; set; }
+    public HeroElementModel HeroModel { get; set; }
 
     protected override async void OnInitialized()
     {
@@ -23,6 +24,7 @@
         
         Model = await ContentDeliveryService.GetHomepage();
         Console.WriteLine(Model.Elements.FirstOrDefault());
+        HeroModel = Model.Elements.First() as HeroElementModel;
         StateHasChanged();
     }
 }
