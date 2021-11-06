@@ -12,7 +12,7 @@ namespace Umbraco9.Core.Helpers
 {
     public static class ElementModelMapper
     {
-        public static object GetCorrespondingElementModel(this BlockListItem element)
+        public static IElementModel GetCorrespondingElementModel(this BlockListItem element)
         {
             if (element.Content is HeroElement heroElement)
             {

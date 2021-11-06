@@ -25,8 +25,13 @@ namespace Umbraco9.Blazor.Services
             try
             {
                 var client = _clientFactory.CreateClient();
-                var response = await client.GetFromJsonAsync<HomepageModel>("http://localhost:13457/api/v1/application/getHomepage");
-                return response;
+                var response = await client.GetAsync(("http://localhost:13457/api/v1/application/getHomepage"));
+                if (response.IsSuccessStatusCode)
+                {
+                    var readStream = response.Content.ReadAsStringAsync().Result;
+                    return JSON.ToObject<HomepageModel>(readStream);
+                }
+                return null;
             }
             catch (Exception ex)
             {

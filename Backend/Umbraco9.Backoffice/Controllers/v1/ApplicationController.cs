@@ -58,7 +58,10 @@ namespace Umbraco9.Backoffice.Controllers.v1
                 return NotFound();
             }
 
-            return new JsonResult(new HomepageModel(homePage));
+            return new ContentResult()
+            {
+                Content = JSON.ToNiceJSON(new HomepageModel(homePage))
+            };
         }
     }
 }

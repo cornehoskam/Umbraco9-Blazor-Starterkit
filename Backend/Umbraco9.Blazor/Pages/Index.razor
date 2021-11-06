@@ -6,7 +6,7 @@
     return;
 }
 <h1>@Model.Title</h1>
-<p>Total Elements on Homepage: @Model.Elements.Count</p>
+<p>Total Elements on Homepage: @Model.Elements.FirstOrDefault()?.ModelContentType</p>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
@@ -22,7 +22,7 @@
             return;
         
         Model = await ContentDeliveryService.GetHomepage();
-
+        Console.WriteLine(Model.Elements.FirstOrDefault());
         StateHasChanged();
     }
 }
