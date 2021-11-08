@@ -10,5 +10,7 @@ namespace Umbraco9.Core.Models.Elements
     {
         public string UmbracoContentType { get; }
         public string ModelContentType { get; }
+
+        public const string ModelContentTypeConst = "";
     }
 }

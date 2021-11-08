@@ -9,7 +9,7 @@
 <h1>@Model.Title</h1>
 <p>First Element on Homepage: @Model.Elements.FirstOrDefault()?.ModelContentType</p>
 
-<HeroElementComponent Model="@HeroModel"/>
+<ComponentList Elements="@Model.Elements"/>
 
 @code
 {

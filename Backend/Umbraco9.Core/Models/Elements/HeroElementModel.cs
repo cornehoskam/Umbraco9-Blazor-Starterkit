@@ -15,7 +15,9 @@ namespace Umbraco9.Core.Models.Elements
         public string Subtext { get; set; }
         public string CallToAction { get; set; } //Todo make Link model
         public string UmbracoContentType => HeroElement.ModelTypeAlias;
-        public string ModelContentType => GetType().Name;
+        public string ModelContentType => ModelContentTypeConst;
+
+        public const string ModelContentTypeConst = "HeroElementModel";
 
         public HeroElementModel() { }
 
