@@ -1,8 +1,11 @@
 ﻿@using Umbraco9.Core.Models.Elements
 <div style="border: solid red 3px">
-    <h1>Model Type: @Model.ModelContentType</h1>
     <h2>Title: @Model.Title</h2>
     <p>Subtext: @Model.Subtext</p>
+    @if (Model.CallToAction != null)
+    {
+        <a href="@Model.CallToAction.Url" target="@Model.CallToAction.Target">@Model.CallToAction.Title</a>
+    }
 </div>
 
 @code {

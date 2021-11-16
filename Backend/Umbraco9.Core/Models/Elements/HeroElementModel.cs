@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Umbraco9.Core.Models.Miscellaneous;
 using Umbraco9.Core.UmbracoModels;
 
 namespace Umbraco9.Core.Models.Elements
@@ -13,11 +14,8 @@ namespace Umbraco9.Core.Models.Elements
     {
         public string Title { get; set; }
         public string Subtext { get; set; }
-        public string CallToAction { get; set; } //Todo make Link model
+        public CallToActionModel CallToAction { get; set; }
         public string UmbracoContentType => HeroElement.ModelTypeAlias;
-        public string ModelContentType => ModelContentTypeConst;
-
-        public const string ModelContentTypeConst = "HeroElementModel";
 
         public HeroElementModel() { }
 
@@ -25,7 +23,10 @@ namespace Umbraco9.Core.Models.Elements
         {
             Title = heroElement.Title;
             Subtext = heroElement.Subtext;
-            CallToAction = heroElement.CallToAction?.Url;
+            if (heroElement.CallToAction != null)
+            {
+                CallToAction = new CallToActionModel(heroElement.CallToAction);
+            }
         }
 
     }

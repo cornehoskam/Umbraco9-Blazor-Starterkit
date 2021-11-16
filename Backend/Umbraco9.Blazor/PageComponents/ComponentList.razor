@@ -5,10 +5,14 @@
 }
 @foreach (var el in Elements)
 {
-    if (el.ModelContentType == HeroElementModel.ModelContentTypeConst)
+    switch (el)
     {
-        var parsed = el as HeroElementModel;
-        <HeroElementComponent Model="@parsed" />
+        case HeroElementModel heroElement:
+            <HeroElementComponent Model="@heroElement" />
+            break;
+        case ParagraphElementModel paragraphElement:
+            <ParagraphElementComponent Model="@paragraphElement" />
+            break;
     }
 }
 @code {
