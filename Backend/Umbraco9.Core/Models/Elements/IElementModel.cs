@@ -8,6 +8,6 @@ namespace Umbraco9.Core.Models.Elements
 {
     public interface IElementModel
     {
-        public string ContentType { get; }
+        public string UmbracoContentType { get; }
     }
 }

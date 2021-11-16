@@ -1,0 +1,21 @@
+﻿@using Umbraco9.Core.Models.Elements
+@if (Elements == null)
+{
+    return;
+}
+@foreach (var el in Elements)
+{
+    switch (el)
+    {
+        case HeroElementModel heroElement:
+            <HeroElementComponent Model="@heroElement" />
+            break;
+        case ParagraphElementModel paragraphElement:
+            <ParagraphElementComponent Model="@paragraphElement" />
+            break;
+    }
+}
+@code {
+    [Parameter]
+    public List<IElementModel> Elements { get; set; }
+}

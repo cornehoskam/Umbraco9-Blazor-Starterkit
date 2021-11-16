@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbraco9.Backoffice", "Umbr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbraco9.Core", "Umbraco9.Core\Umbraco9.Core.csproj", "{75AD157A-A352-48E5-ABC2-C7CB4A966703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbraco9.Blazor", "Umbraco9.Blazor\Umbraco9.Blazor.csproj", "{D87457BE-0767-437D-9E42-65BE049C80A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbraco9.Blazor", "Umbraco9.Blazor\Umbraco9.Blazor.csproj", "{D87457BE-0767-437D-9E42-65BE049C80A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

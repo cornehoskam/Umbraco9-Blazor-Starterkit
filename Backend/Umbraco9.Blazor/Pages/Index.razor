@@ -1,7 +1,26 @@
 ﻿@page "/"
+@using Umbraco9.Blazor.Services
+@using Umbraco9.Core.Models.Pages
+@if (Model == null)
+{
+    return;
+}
 
-<h1>Hello, world!</h1>
+<h1>@Model.Title</h1>
+<ComponentList Elements="@Model.Elements"/>
 
-Welcome to your new app.
+@code
+{
+    [Inject]public IContentDeliveryService ContentDeliveryService { get; set; }
+    public HomepageModel Model { get; set; }
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    protected override async void OnInitialized()
+    {
+        if (ContentDeliveryService == null)
+            return;
+        
+        Model = await ContentDeliveryService.GetHomepage();
+        Console.WriteLine(Model.Elements.FirstOrDefault());
+        StateHasChanged();
+    }
+}

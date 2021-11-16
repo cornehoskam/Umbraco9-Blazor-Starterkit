@@ -13,7 +13,7 @@ namespace Umbraco9.Core.Models.Pages
     {
         public string Title { get; set; }
 
-        public List<object> Elements { get; set; }
+        public List<IElementModel> Elements { get; set; }
 
         public HomepageModel() { }
 

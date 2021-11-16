@@ -29,7 +29,6 @@ namespace Umbraco9.Backoffice.Controllers.v1
         private readonly IUmbracoHelperAccessor _umbracoHelperAccessor;
         public ApplicationController(IConfiguration configuration, IUmbracoHelperAccessor umbracoHelperAccessor)
         {
-             
             _configuration = configuration;
             _umbracoHelperAccessor = umbracoHelperAccessor;
         }
@@ -58,7 +57,10 @@ namespace Umbraco9.Backoffice.Controllers.v1
                 return NotFound();
             }
 
-            return new JsonResult(new HomepageModel(homePage));
+            return new ContentResult()
+            {
+                Content = JSON.ToNiceJSON(new HomepageModel(homePage))
+            };
         }
     }
 }

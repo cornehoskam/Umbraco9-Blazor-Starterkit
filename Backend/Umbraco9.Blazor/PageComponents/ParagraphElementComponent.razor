@@ -1,0 +1,12 @@
+﻿@using Umbraco9.Core.Models.Elements
+<div style="border: solid green 3px">
+    <h2>Title: @Model.Title</h2>
+    <div>
+        @((MarkupString)Model.Text)
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ParagraphElementModel Model { get; set; }
+}
