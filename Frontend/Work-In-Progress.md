@@ -1,0 +1,1 @@
+As of right now, we're only using the CDN version of Tailwind for our styling. This will change in the future! :)
