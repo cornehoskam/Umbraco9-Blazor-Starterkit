@@ -20,6 +20,8 @@ namespace Umbraco9.Core.Helpers
                     return new HeroElementModel(heroElement);
                 case ParagraphElement paragraphElement:
                     return new ParagraphElementModel(paragraphElement);
+                case FAqelement faqElement:
+                    return new FaqElementModel(faqElement);
                 default:
                     return null;
             }
