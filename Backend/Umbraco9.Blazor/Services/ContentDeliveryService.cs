@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NPoco.fastJSON;
 using Umbraco9.Core.Models.Pages;
@@ -14,10 +15,12 @@ namespace Umbraco9.Blazor.Services
     public class ContentDeliveryService : IContentDeliveryService
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
 
-        public ContentDeliveryService(IHttpClientFactory clientFactory)
+        public ContentDeliveryService(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _clientFactory = clientFactory;
+            _configuration = configuration;
         }
 
         public async Task<HomepageModel> GetHomepage()
@@ -25,7 +28,8 @@ namespace Umbraco9.Blazor.Services
             try
             {
                 var client = _clientFactory.CreateClient();
-                var response = await client.GetAsync(("http://localhost:13457/api/v1/application/getHomepage"));
+                var baseUrl = _configuration["cms:hostUrl"];
+                var response = await client.GetAsync(($"{baseUrl}api/v1/application/getHomepage"));
                 if (response.IsSuccessStatusCode)
                 {
                     var readStream = response.Content.ReadAsStringAsync().Result;

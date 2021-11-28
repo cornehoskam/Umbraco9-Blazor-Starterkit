@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp;
 using Umbraco.Cms.Core.Configuration.Models;
 using Umbraco.Cms.Core.Media;
 using Umbraco.Cms.Core.Routing;
@@ -26,6 +27,7 @@ namespace Umbraco9.Core.Models.Miscellaneous
             FullName = testimonialItem.Fullname;
             FunctionOrTitle = testimonialItem.FunctionOrTitle;
             Testimonial = testimonialItem.Testimonial;
+            ProfilePictureUrl = testimonialItem.ProfilePicture.LocalCrops.Src + testimonialItem.ProfilePicture.LocalCrops.GetCropUrl("profilePicture", new ImageSharpImageUrlGenerator(new Configuration()));
         }
     }
 }
