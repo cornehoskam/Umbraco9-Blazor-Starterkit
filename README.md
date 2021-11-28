@@ -31,9 +31,10 @@ The list of currently added elements will expand as time passes. The current ele
 - Hero Element
 - Paragraph Element
 - Frequently Asked Questions Element
+- Testimonials Element
 
 ### Install Package
 To be added in the future!
 
 ### Front End Screenshot
-![](https://i.imgur.com/yg5HyLx.png)
+![](https://i.imgur.com/zNVPAs0.png)
