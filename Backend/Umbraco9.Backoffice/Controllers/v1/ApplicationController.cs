@@ -62,5 +62,33 @@ namespace Umbraco9.Backoffice.Controllers.v1
                 Content = JSON.ToNiceJSON(new HomepageModel(homePage))
             };
         }
+
+        public ActionResult GetGenericContentPage(string contentPageUrlSegment)
+        {
+            if (_umbracoHelperAccessor.TryGetUmbracoHelper(out var umbracoHelper) is false)
+            {
+                return StatusCode(500);
+            }
+
+            var rootNode = umbracoHelper.ContentAtRoot().FirstOrDefault();
+            if (rootNode is null)
+            {
+                return NotFound();
+            }
+
+            var contentPage = rootNode.Descendants<GenericContentPage>()
+                .FirstOrDefault(x => x.UrlSegment == contentPageUrlSegment ||
+                                     x.UrlSegment + "/" == contentPageUrlSegment);
+            if (contentPage is null)
+            {
+                return NotFound();
+            }
+
+            return new ContentResult()
+            {
+                Content = JSON.ToNiceJSON(new GenericContentPageModel(contentPage))
+            };
+        }
+
     }
 }

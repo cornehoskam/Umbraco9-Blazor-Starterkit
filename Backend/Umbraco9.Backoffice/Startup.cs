@@ -44,7 +44,7 @@ namespace Umbraco9.Backoffice
             {
                 options.AddPolicy(name: CustomAllowedOrigins, builder =>
                 {
-                    builder.WithOrigins("https://localhost:44315", "https://localhost:5001");
+                    builder.WithOrigins("https://localhost:44315", "https://localhost:5001", "http://localhost/");
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
                     builder.AllowCredentials();
