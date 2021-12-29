@@ -1,6 +1,7 @@
 ﻿@page "/about-us"
 @using Umbraco9.Blazor.Services
 @using Umbraco9.Core.Models.Pages
+
 @if (Model == null)
 {
     return;
@@ -17,9 +18,8 @@
     {
         if (ContentDeliveryService == null)
             return;
-        
+
         Model = await ContentDeliveryService.GetPageOfType<GenericContentPageModel>("about-us");
-        Console.WriteLine(Model);
         StateHasChanged();
     }
 }

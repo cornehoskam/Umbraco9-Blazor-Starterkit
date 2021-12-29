@@ -8,6 +8,6 @@ namespace Umbraco9.Blazor.Services
 {
     public interface IContentDeliveryService
     {
-        public Task<T> GetPageOfType<T>(string urlSegment = "");
+        public Task<T> GetPageOfType<T>(string urlSegment);
     }
 }

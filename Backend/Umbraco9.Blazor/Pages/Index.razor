@@ -18,8 +18,7 @@
         if (ContentDeliveryService == null)
             return;
         
-        Model = await ContentDeliveryService.GetPageOfType<HomepageModel>();
-        Console.WriteLine(Model.Elements.FirstOrDefault());
+        Model = await ContentDeliveryService.GetPageOfType<HomepageModel>("/");
         StateHasChanged();
     }
 }
