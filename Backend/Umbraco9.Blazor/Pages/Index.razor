@@ -6,7 +6,7 @@
     return;
 }
 
-<ComponentList Elements="@Model.Elements"/>
+<ComponentList Elements="Model.Elements"/>
 
 @code
 {
@@ -18,7 +18,7 @@
         if (ContentDeliveryService == null)
             return;
         
-        Model = await ContentDeliveryService.GetHomepage();
+        Model = await ContentDeliveryService.GetPageOfType<HomepageModel>();
         Console.WriteLine(Model.Elements.FirstOrDefault());
         StateHasChanged();
     }

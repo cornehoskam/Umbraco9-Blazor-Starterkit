@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NPoco.fastJSON;
 using Umbraco9.Core.Models.Pages;
+using Umbraco9.Core.UmbracoModels;
 
 namespace Umbraco9.Blazor.Services
 {
@@ -23,24 +25,37 @@ namespace Umbraco9.Blazor.Services
             _configuration = configuration;
         }
 
-        public async Task<HomepageModel> GetHomepage()
+        public async Task<T> GetPageOfType<T>(string urlSegment = "")
         {
             try
             {
                 var client = _clientFactory.CreateClient();
                 var baseUrl = _configuration["cms:hostUrl"];
-                var response = await client.GetAsync(($"{baseUrl}api/v1/application/getHomepage"));
-                if (response.IsSuccessStatusCode)
+
+                HttpResponseMessage response = null;
+
+                if (typeof(T) == typeof(HomepageModel))
                 {
-                    var readStream = response.Content.ReadAsStringAsync().Result;
-                    return JSON.ToObject<HomepageModel>(readStream);
+                    response = await client.GetAsync(($"{baseUrl}api/v1/application/getHomepage"));
                 }
-                return null;
+                if (typeof(T) == typeof(GenericContentPageModel))
+                {
+                    response = await client.GetAsync(($"{baseUrl}api/v1/application/GetGenericContentPage?contentPageUrlSegment={urlSegment}"));
+                }
+
+                if (response is { IsSuccessStatusCode: true })
+                {
+                    var readStream = await response.Content.ReadAsStringAsync();
+                    return JSON.ToObject<T>(readStream);
+                }
+
+                return default;
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return null;
+                return default;
             }
         }
     }

@@ -50,6 +50,14 @@ namespace Umbraco9.Core.UmbracoModels
 		// properties
 
 		///<summary>
+		/// Block List
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "9.1.2+915f1cb34c3c63d3c88ebced61dd35d80255408c")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("blockList")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel BlockList => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "blockList");
+
+		///<summary>
 		/// Title
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "9.1.2+915f1cb34c3c63d3c88ebced61dd35d80255408c")]

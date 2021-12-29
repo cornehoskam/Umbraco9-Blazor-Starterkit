@@ -1,0 +1,25 @@
+﻿@page "/about-us"
+@using Umbraco9.Blazor.Services
+@using Umbraco9.Core.Models.Pages
+@if (Model == null)
+{
+    return;
+}
+
+<ComponentList Elements="Model.Elements"/>
+
+@code
+{
+    [Inject]public IContentDeliveryService ContentDeliveryService { get; set; }
+    public GenericContentPageModel Model { get; set; }
+
+    protected override async void OnInitialized()
+    {
+        if (ContentDeliveryService == null)
+            return;
+        
+        Model = await ContentDeliveryService.GetPageOfType<GenericContentPageModel>("about-us");
+        Console.WriteLine(Model);
+        StateHasChanged();
+    }
+}
