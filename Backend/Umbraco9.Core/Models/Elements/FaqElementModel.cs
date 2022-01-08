@@ -19,7 +19,7 @@ namespace Umbraco9.Core.Models.Elements
 
         public List<FaqItemModel> QuestionsAnswers { get; set; }
 
-        public string UmbracoContentType => ParagraphElement.ModelTypeAlias;
+        public string UmbracoContentType => FAqelement.ModelTypeAlias;
 
         public FaqElementModel() { }
 

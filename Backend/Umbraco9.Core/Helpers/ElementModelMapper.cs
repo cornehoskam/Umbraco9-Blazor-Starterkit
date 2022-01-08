@@ -24,6 +24,8 @@ namespace Umbraco9.Core.Helpers
                     return new FaqElementModel(faqElement);
                 case TestimonialElement testimonialElement:
                     return new TestimonialElementModel(testimonialElement);
+                case ChartElement chartElement:
+                    return new ChartElementModel(chartElement);
                 default:
                     return null;
             }

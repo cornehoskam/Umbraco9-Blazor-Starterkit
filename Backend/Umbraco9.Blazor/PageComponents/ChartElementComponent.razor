@@ -1,0 +1,89 @@
+﻿
+@inject IConfiguration _configuration
+@inject IJSRuntime _jsRuntime
+
+<section class="flex items-center justify-center py-20 bg-white min-w-screen">
+    <div class="w-1/2 md:px-3">
+        <h4 class="text-3xl text-center font-normal leading-normal mt-0 mb-8 relative text-indigo-600">
+            @Model.Title
+        </h4>
+        <div>
+            @if (Model.ChartType == ChartType.Pie)
+            {
+                <Chart Config="_pieConfig"></Chart>
+            }
+            @if (Model.ChartType == ChartType.Bar)
+            {
+                <Chart Config="_barConfig"></Chart>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public ChartElementModel Model { get; set; }
+
+    private PieConfig _pieConfig;
+    private BarConfig _barConfig;
+
+    protected override void OnInitialized()
+    {
+        if (Model.ChartType == ChartType.Pie)
+        {
+            SetPieChart();
+        }
+        if (Model.ChartType == ChartType.Bar)
+        {
+            SetBarChart();
+        }
+    }
+
+    private void SetPieChart()
+    {
+        _pieConfig = new PieConfig
+        {
+            Options = new PieOptions
+            {
+                Responsive = true
+            }
+        };
+
+        foreach (var label in Model.Labels)
+        {
+            _pieConfig.Data.Labels.Add(label);
+        }
+
+        _pieConfig.Data.Datasets.Add(new PieDataset<int>(Model.Values)
+        {
+            BackgroundColor =
+                new IndexableOption<string>(Model.Labels.Select(label => ColorUtil.RandomColorString()).ToArray())
+        });
+    }
+
+    private void SetBarChart()
+    {
+        _barConfig = new BarConfig()
+        {
+            Options = new BarOptions()
+            {
+                Responsive = true
+                
+            }
+        };
+
+        foreach (var label in Model.Labels)
+        {
+            _barConfig.Data.Labels.Add(label);
+        }
+
+        Model.Values.Add(0);
+        _barConfig.Data.Datasets.Add(new BarDataset<int>(Model.Values)
+        {
+            Label = "Values",
+            BackgroundColor = new IndexableOption<string>(Model.Labels.Select(label => ColorUtil.RandomColorString()).ToArray())
+        });
+
+    }
+
+}
