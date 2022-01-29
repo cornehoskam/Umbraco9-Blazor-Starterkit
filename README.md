@@ -12,6 +12,7 @@ Hopefully this site can inspire others to delve deeper into the world of Umbraco
 - Examples of using Blazor components with Dependency Injection
 - Models Builder for all our Umbraco Models
 - Collections to store data (like FAQ's) outside of our Website Root nodes
+- Displaying Charts using Chart.js with Umbraco configurable Data & Chart types 
 - Talwind CSS ([Primarily used from the Tailwind Components and other open-source locations](https://tailwindcomponents.com/)) 
 - More to come...
 
@@ -32,9 +33,10 @@ The list of currently added elements will expand as time passes. The current ele
 - Paragraph Element
 - Frequently Asked Questions Element
 - Testimonials Element
+- Chart Element
 
 ### Install Package
 To be added in the future!
 
 ### Front End Screenshot
-![](https://i.imgur.com/zNVPAs0.png)
+![](https://i.imgur.com/Wvf5c8U.png)
