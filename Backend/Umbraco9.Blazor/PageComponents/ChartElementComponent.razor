@@ -67,7 +67,11 @@
         {
             Options = new BarOptions()
             {
-                Responsive = true
+                Responsive = true,
+                Legend = new Legend()
+                {
+                    Display = false
+                }
                 
             }
         };
@@ -80,8 +84,7 @@
         Model.Values.Add(0);
         _barConfig.Data.Datasets.Add(new BarDataset<int>(Model.Values)
         {
-            Label = "Values",
-            BackgroundColor = new IndexableOption<string>(Model.Labels.Select(label => ColorUtil.RandomColorString()).ToArray())
+            BackgroundColor = new IndexableOption<string>(Model.Labels.Select(_ => ColorUtil.RandomColorString()).ToArray())
         });
 
     }
