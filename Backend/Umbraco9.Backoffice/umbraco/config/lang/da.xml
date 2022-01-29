@@ -5,7 +5,7 @@
     <link>https://our.umbraco.com/documentation/Extending-Umbraco/Language-Files</link>
   </creator>
   <area alias="actions">
-    <key alias="assignDomain">Tilføj domæne</key>
+    <key alias="assigndomain">Tilføj domæne</key>
     <key alias="auditTrail">Revisionsspor</key>
     <key alias="browse">Gennemse elementer</key>
     <key alias="changeDocType">Skift Dokument Type</key>
@@ -83,6 +83,7 @@
     <key alias="translate">Tillad adgang til at oversætte en node</key>
     <key alias="update">Tillad adgang til at gemme en node</key>
     <key alias="createblueprint">Tillad adgang til at oprette en indholdsskabelon</key>
+    <key alias="notify">Tillad adgang til at oprette notificeringer for noder</key>
   </area>
   <area alias="apps">
     <key alias="umbContent">Indhold</key>
@@ -1395,6 +1396,8 @@ Mange hilsner fra Umbraco robotten
     <key alias="publishWithMissingDomain">Der er ikke noget domæne konfigureret for %0%, kontakt vensligst en
       administrator, se loggen for mere information
     </key>
+    <key alias="copySuccessMessage">Dit systems information er blevet kopieret til udklipsholderen</key>
+    <key alias="cannotCopyInformation">Kunne desværre ikke kopiere dit systems information til udklipsholderen</key>
   </area>
   <area alias="stylesheet">
     <key alias="addRule">Tilføj style</key>
