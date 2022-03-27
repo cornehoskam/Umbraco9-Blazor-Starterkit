@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Umbraco9.Core.Helpers;
 using Umbraco9.Core.Models.Elements;
 using Umbraco9.Core.UmbracoModels;

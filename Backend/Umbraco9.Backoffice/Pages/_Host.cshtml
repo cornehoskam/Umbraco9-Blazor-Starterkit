@@ -1,0 +1,17 @@
+﻿@page "/"
+@using Umbraco9.Blazor
+@namespace BlazorHosted.Server.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+@if (HttpContext.Request.Path.StartsWithSegments("/authentication"))
+{
+    <component type="typeof(App)" render-mode="WebAssembly" />
+}
+else
+{
+    <component type="typeof(App)" render-mode="WebAssemblyPrerendered" />
+    <persist-component-state />
+}

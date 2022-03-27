@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
 using NPoco.fastJSON;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Umbraco9.Core.Models.Pages;
-using Umbraco9.Core.UmbracoModels;
+using Umbraco9.Core.Services;
 
 namespace Umbraco9.Blazor.Services
 {
@@ -28,7 +23,7 @@ namespace Umbraco9.Blazor.Services
             ContentCache = new Dictionary<string, object>();
         }
 
-        public async Task<T> GetPageOfType<T>(string urlSegment)
+        public async Task<T> GetPageOfType<T>(string urlSegment) where T : class
         {
             try
             {
@@ -71,6 +66,11 @@ namespace Umbraco9.Blazor.Services
                 Console.WriteLine(ex);
                 return default;
             }
+        }
+
+        public async Task<HomepageModel> GetHomePage()
+        {
+            return await GetPageOfType<HomepageModel>("/");
         }
     }
 }

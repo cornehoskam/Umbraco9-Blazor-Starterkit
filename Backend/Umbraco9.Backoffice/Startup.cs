@@ -40,6 +40,10 @@ namespace Umbraco9.Backoffice
         /// </remarks>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add support for razor pages
+            services.AddRazorPages();
+            services.AddCustomBlazorServices();
+
             services.AddCors(options =>
             {
                 options.AddPolicy(name: CustomAllowedOrigins, builder =>
@@ -68,9 +72,19 @@ namespace Umbraco9.Backoffice
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseCors(CustomAllowedOrigins);
+
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseUmbraco()
                 .WithMiddleware(u =>
@@ -80,6 +94,9 @@ namespace Umbraco9.Backoffice
                 })
                 .WithEndpoints(u =>
                 {
+                    u.EndpointRouteBuilder.MapRazorPages();
+                    u.EndpointRouteBuilder.MapFallbackToPage("/_Host");
+
                     u.UseInstallerEndpoints();
                     u.UseBackOfficeEndpoints();
                     u.UseWebsiteEndpoints();

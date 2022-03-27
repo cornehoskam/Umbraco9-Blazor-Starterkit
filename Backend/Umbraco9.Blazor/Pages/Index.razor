@@ -1,24 +1,61 @@
 ﻿@page "/"
+@implements IDisposable
+@using Microsoft.Extensions.Logging
+@using NPoco.fastJSON
 @using Umbraco9.Blazor.Services
 @using Umbraco9.Core.Models.Pages
-@if (Model == null)
-{
-    return;
-}
+@using Umbraco9.Core.Services
+@inject PersistentComponentState ApplicationState
+@inject IContentDeliveryService ContentDeliveryService
+@inject ILogger<Index> logger
 
-<ComponentList Elements="Model.Elements"/>
+<ComponentList Elements="contentData?.Elements" />
 
 @code
 {
-    [Inject]public IContentDeliveryService ContentDeliveryService { get; set; }
-    public HomepageModel Model { get; set; }
+    private HomepageModel contentData;
 
-    protected override async void OnInitialized()
+    private PersistingComponentStateSubscription persistingSubscription;
+
+    // See - https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/persist-component-state?view=aspnetcore-6.0 
+    // For more information on persisting data during SSR so we do not see a flash of content where the data is loaded on the server 
+    // then a second time when the client app loads and binds to the ssr content.
+
+    protected override async Task OnInitializedAsync()
     {
-        if (ContentDeliveryService == null)
-            return;
-        
-        Model = await ContentDeliveryService.GetPageOfType<HomepageModel>("/");
-        StateHasChanged();
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistData);
+
+        try
+        {
+            // Due to an issue where the ApplicationState does not support deserializing 
+            // interfaces, we are serializing the data using JSON.ToNiceJSON instead as a work around
+            if (!ApplicationState.TryTakeFromJson<string>("fetchdata", out var restored))
+            {
+                contentData = await ContentDeliveryService.GetPageOfType<HomepageModel>("/");
+            }
+            else
+            {
+                contentData = JSON.ToObject<HomepageModel>(restored!);
+            }
+        }
+        catch(Exception ex)
+        {
+            logger.LogError(ex, "Error loading page data");            
+        }
     }
+
+    private Task PersistData()
+    {
+        // Serialize the data in a format that will rehydrate the IElement interfaces properly
+        var prettyJson = JSON.ToNiceJSON(contentData);
+        ApplicationState.PersistAsJson("fetchdata", prettyJson);
+
+        return Task.CompletedTask;
+    }
+
+    void IDisposable.Dispose()
+    {
+        persistingSubscription.Dispose();
+    }
+
 }

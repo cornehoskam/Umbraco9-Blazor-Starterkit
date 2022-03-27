@@ -1,25 +1,53 @@
 ﻿@page "/about-us"
+@implements IDisposable
+@using Microsoft.Extensions.Logging
+@using NPoco.fastJSON
 @using Umbraco9.Blazor.Services
 @using Umbraco9.Core.Models.Pages
+@using Umbraco9.Core.Services
+@inject PersistentComponentState ApplicationState
+@inject IContentDeliveryService ContentDeliveryService
+@inject ILogger<AboutUs> logger
 
-@if (Model == null)
-{
-    return;
-}
-
-<ComponentList Elements="Model.Elements"/>
+<ComponentList Elements="contentData?.Elements" />
 
 @code
 {
-    [Inject]public IContentDeliveryService ContentDeliveryService { get; set; }
-    public GenericContentPageModel Model { get; set; }
+    private GenericContentPageModel contentData;
+    private PersistingComponentStateSubscription persistingSubscription;
 
-    protected override async void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        if (ContentDeliveryService == null)
-            return;
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistData);
 
-        Model = await ContentDeliveryService.GetPageOfType<GenericContentPageModel>("about-us");
-        StateHasChanged();
+        try
+        {
+            if (!ApplicationState.TryTakeFromJson<string>($"fetchdata", out var restored))
+            {
+
+                contentData = await ContentDeliveryService.GetPageOfType<GenericContentPageModel>("about-us");
+            }
+            else
+            {
+                contentData = JSON.ToObject<GenericContentPageModel>(restored!);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error loading page data");
+        }
+    }
+
+    private Task PersistData()
+    {
+        var prettyJson = JSON.ToNiceJSON(contentData);
+        ApplicationState.PersistAsJson("fetchdata", prettyJson);
+
+        return Task.CompletedTask;
+    }
+
+    void IDisposable.Dispose()
+    {
+        persistingSubscription.Dispose();
     }
 }
