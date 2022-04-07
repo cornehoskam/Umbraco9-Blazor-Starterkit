@@ -68,7 +68,7 @@ namespace Umbraco9.Blazor.Services
             }
         }
 
-        public async Task<HomepageModel> GetHomePage()
+        public async Task<HomepageModel?> GetHomePage()
         {
             return await GetPageOfType<HomepageModel>("/");
         }

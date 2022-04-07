@@ -38,9 +38,13 @@ Backend/Umbraco9.Core/obj/
 Backend/Umbraco9.Backoffice/.vs/
 Backend/Umbraco9.Backoffice/bin/
 Backend/Umbraco9.Backoffice/obj/
+Backend/Umbraco9.Backoffice/wwwroot/
 Backend/Umbraco9.Backoffice/umbraco/Data/TEMP/
 Backend/Umbraco9.Backoffice/umbraco/Data/Umbraco_log.ldf
 Backend/Umbraco9.Backoffice/umbraco/Logs/
 Backend/Umbraco9.Blazor/bin/
 
 Backend/Umbraco9.Blazor/obj/
+
+
+Backend/.idea/

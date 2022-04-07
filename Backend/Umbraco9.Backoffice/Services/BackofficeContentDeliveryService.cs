@@ -32,7 +32,7 @@ namespace Umbraco9.Backoffice.Services
             return default;
         }
 
-        public Task<HomepageModel> GetHomePage()
+        public Task<HomepageModel?> GetHomePage()
         {
             if (_umbracoHelperAccessor.TryGetUmbracoHelper(out var umbracoHelper) is false)
             {
@@ -54,10 +54,10 @@ namespace Umbraco9.Backoffice.Services
             }
 
             result = new HomepageModel(homePage);
-            return Task.FromResult(result);
+            return Task.FromResult(result)!;
         }
 
-        public GenericContentPageModel? GetGenericContentPage(string contentPageUrlSegment)
+        private GenericContentPageModel? GetGenericContentPage(string contentPageUrlSegment)
         {
             if (_umbracoHelperAccessor.TryGetUmbracoHelper(out var umbracoHelper) is false)
             {
@@ -73,12 +73,8 @@ namespace Umbraco9.Backoffice.Services
             var contentPage = rootNode.Descendants<GenericContentPage>()
                 .FirstOrDefault(x => x.UrlSegment == contentPageUrlSegment ||
                                      x.UrlSegment + "/" == contentPageUrlSegment);
-            if (contentPage is null)
-            {
-                return null;
-            }
-
-            return new GenericContentPageModel(contentPage);
+            
+            return contentPage is null ? null : new GenericContentPageModel(contentPage);
         }
     }
 }

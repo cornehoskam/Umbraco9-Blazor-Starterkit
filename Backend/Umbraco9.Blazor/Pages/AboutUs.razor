@@ -2,52 +2,51 @@
 @implements IDisposable
 @using Microsoft.Extensions.Logging
 @using NPoco.fastJSON
-@using Umbraco9.Blazor.Services
 @using Umbraco9.Core.Models.Pages
 @using Umbraco9.Core.Services
-@inject PersistentComponentState ApplicationState
-@inject IContentDeliveryService ContentDeliveryService
-@inject ILogger<AboutUs> logger
+@inject PersistentComponentState _applicationState
+@inject IContentDeliveryService _contentDeliveryService
+@inject ILogger<AboutUs> _logger
 
-<ComponentList Elements="contentData?.Elements" />
+<ComponentList Elements="_contentData?.Elements" />
 
 @code
 {
-    private GenericContentPageModel contentData;
-    private PersistingComponentStateSubscription persistingSubscription;
+    private GenericContentPageModel _contentData;
+    private PersistingComponentStateSubscription _persistingSubscription;
 
     protected override async Task OnInitializedAsync()
     {
-        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistData);
+        _persistingSubscription = _applicationState.RegisterOnPersisting(PersistData);
 
         try
         {
-            if (!ApplicationState.TryTakeFromJson<string>($"fetchdata", out var restored))
+            if (!_applicationState.TryTakeFromJson<string>($"fetchdata", out var restored))
             {
 
-                contentData = await ContentDeliveryService.GetPageOfType<GenericContentPageModel>("about-us");
+                _contentData = await _contentDeliveryService.GetPageOfType<GenericContentPageModel>("about-us");
             }
             else
             {
-                contentData = JSON.ToObject<GenericContentPageModel>(restored!);
+                _contentData = JSON.ToObject<GenericContentPageModel>(restored!);
             }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error loading page data");
+            _logger.LogError(ex, "Error loading page data");
         }
     }
 
     private Task PersistData()
     {
-        var prettyJson = JSON.ToNiceJSON(contentData);
-        ApplicationState.PersistAsJson("fetchdata", prettyJson);
+        var prettyJson = JSON.ToNiceJSON(_contentData);
+        _applicationState.PersistAsJson("fetchdata", prettyJson);
 
         return Task.CompletedTask;
     }
 
     void IDisposable.Dispose()
     {
-        persistingSubscription.Dispose();
+        _persistingSubscription.Dispose();
     }
 }
