@@ -10,6 +10,7 @@ Hopefully this site can inspire others to delve deeper into the world of Umbraco
 - Using the Block List Editor to add components to our page(s)
 - Using an UmbracoApiController to serialize our models to be used in our Client
 - Examples of using Blazor components with Dependency Injection
+- Server Side Rendering Blazor for SEO purpose
 - Models Builder for all our Umbraco Models
 - Collections to store data (like FAQ's) outside of our Website Root nodes
 - Displaying Charts using Chart.js with Umbraco configurable Data & Chart types 
