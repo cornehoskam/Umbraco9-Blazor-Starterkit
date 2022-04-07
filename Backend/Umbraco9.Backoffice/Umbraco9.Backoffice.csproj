@@ -1,62 +1,69 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <DefaultItemExcludes>$(DefaultItemExcludes);App_Plugins/**;</DefaultItemExcludes>
-        <DefaultItemExcludes>$(DefaultItemExcludes);umbraco/**;</DefaultItemExcludes>
-        <DefaultItemExcludes>$(DefaultItemExcludes);wwwroot/media/**;</DefaultItemExcludes>
-	    <NoWarn>$(NoWarn);NU1605</NoWarn>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <DefaultItemExcludes>$(DefaultItemExcludes);App_Plugins/**;</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);umbraco/**;</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);wwwroot/media/**;</DefaultItemExcludes>
+    <NoWarn>$(NoWarn);NU1605</NoWarn>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
 
-    <!-- Force windows to use ICU. Otherwise Windows 10 2019H1+ will do it, but older windows 10 and most if not all winodws servers will run NLS -->
-    <ItemGroup>
-        <PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="68.2.0.6" />
-        <PackageReference Include="Umbraco.Cms.Core" Version="9.2.0" />
-        <PackageReference Include="Umbraco.Cms.Infrastructure" Version="9.2.0" />
-        <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="68.2" />
-    </ItemGroup>
+  <!-- Force windows to use ICU. Otherwise Windows 10 2019H1+ will do it, but older windows 10 and most if not all winodws servers will run NLS -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="68.2.0.6" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="9.2.0" />
+    <PackageReference Include="Umbraco.Cms.Infrastructure" Version="9.2.0" />
+    <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="68.2" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Umbraco.Cms" Version="9.2.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Umbraco.Cms" Version="9.2.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <Content Include="App_Plugins/**" CopyToOutputDirectory="Always" />
-        <Content Include="umbraco/**" CopyToOutputDirectory="Always" />
-        <Compile Remove="Views\**" />
-        <Compile Remove="wwwroot\**" />
-        <Content Remove="umbraco/Data/**" />
-        <Content Remove="umbraco/Logs/**" />
-        <Content Remove="umbraco/mediacache/**" />
-        <Content Remove="umbraco/models/**" />
-        <Content Remove="Views\**" />
-        <Content Remove="wwwroot\**" />
-        <Compile Include="umbraco/models/**" Exclude="**/*.flag" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.3" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <EmbeddedResource Remove="Views\**" />
-      <EmbeddedResource Remove="wwwroot\**" />
-      <None Remove="Views\**" />
-      <None Remove="wwwroot\**" />
-    </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Plugins/**" CopyToOutputDirectory="Always" />
+    <Content Include="umbraco/**" CopyToOutputDirectory="Always" />
+    <Compile Remove="Views\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="umbraco/Data/**" />
+    <Content Remove="umbraco/Logs/**" />
+    <Content Remove="umbraco/mediacache/**" />
+    <Content Remove="umbraco/models/**" />
+    <Content Remove="Views\**" />
+    <Content Remove="wwwroot\**" />
+    <Compile Include="umbraco/models/**" Exclude="**/*.flag" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Umbraco9.Core\Umbraco9.Core.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="Views\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="App_Plugins\" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Umbraco9.Blazor\Umbraco9.Blazor.csproj" />
+    <ProjectReference Include="..\Umbraco9.Core\Umbraco9.Core.csproj" />
+  </ItemGroup>
 
-    <PropertyGroup>
-        <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
-    </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="App_Plugins\" />
+  </ItemGroup>
 
-    <!-- Set this to true if ModelsBuilder mode is not InMemoryAuto-->
-    <PropertyGroup>
-        <RazorCompileOnBuild>false</RazorCompileOnBuild>
-        <RazorCompileOnPublish>false</RazorCompileOnPublish>
-    </PropertyGroup>
+  <PropertyGroup>
+    <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
+  </PropertyGroup>
+
+  <!-- Set this to true if ModelsBuilder mode is not InMemoryAuto-->
+  <PropertyGroup>
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
+  </PropertyGroup>
 
 </Project>

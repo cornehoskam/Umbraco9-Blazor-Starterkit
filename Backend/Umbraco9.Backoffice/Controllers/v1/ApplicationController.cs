@@ -1,23 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using NPoco.fastJSON;
-using Umbraco.Cms.Core.PublishedCache;
-using Umbraco.Cms.Core.Services;
-using Umbraco.Cms.Core.Web;
-using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Controllers;
-using Umbraco.Cms.Web.Common.UmbracoContext;
-using Umbraco.Extensions;
 using Umbraco9.Core.Models.Pages;
-using Umbraco9.Core.UmbracoModels;
+using Umbraco9.Core.Services;
 
 namespace Umbraco9.Backoffice.Controllers.v1
 {
@@ -26,11 +11,14 @@ namespace Umbraco9.Backoffice.Controllers.v1
     {
         private readonly IConfiguration _configuration;
 
-        private readonly IUmbracoHelperAccessor _umbracoHelperAccessor;
-        public ApplicationController(IConfiguration configuration, IUmbracoHelperAccessor umbracoHelperAccessor)
+        private readonly IContentDeliveryService contentDeliveryService;
+
+        public ApplicationController(
+            IConfiguration configuration,
+            IContentDeliveryService contentDeliveryService)
         {
             _configuration = configuration;
-            _umbracoHelperAccessor = umbracoHelperAccessor;
+            this.contentDeliveryService = contentDeliveryService;
         }
 
         public string GetVersion()
@@ -38,55 +26,33 @@ namespace Umbraco9.Backoffice.Controllers.v1
             return _configuration["Application:Version"];
         }
 
-        public ActionResult GetHomepage()
+        public async Task<ActionResult> GetHomepage()
         {
-            if (_umbracoHelperAccessor.TryGetUmbracoHelper(out var umbracoHelper) is false)
-            {
-                return StatusCode(500);
-            }
+            var result = await contentDeliveryService.GetHomePage();
 
-            var rootNode = umbracoHelper.ContentAtRoot().FirstOrDefault();
-            if (rootNode is null)
-            {
-                return NotFound();
-            }
-
-            var homePage = rootNode.FirstChild<Homepage>();
-            if (homePage is null)
+            if (result == null)
             {
                 return NotFound();
             }
 
             return new ContentResult()
             {
-                Content = JSON.ToNiceJSON(new HomepageModel(homePage))
+                Content = JSON.ToNiceJSON(result)
             };
         }
 
-        public ActionResult GetGenericContentPage(string contentPageUrlSegment)
+        public async Task<ActionResult> GetGenericContentPage(string contentPageUrlSegment)
         {
-            if (_umbracoHelperAccessor.TryGetUmbracoHelper(out var umbracoHelper) is false)
-            {
-                return StatusCode(500);
-            }
+            var result = await contentDeliveryService.GetPageOfType<GenericContentPageModel>(contentPageUrlSegment);
 
-            var rootNode = umbracoHelper.ContentAtRoot().FirstOrDefault();
-            if (rootNode is null)
-            {
-                return NotFound();
-            }
-
-            var contentPage = rootNode.Descendants<GenericContentPage>()
-                .FirstOrDefault(x => x.UrlSegment == contentPageUrlSegment ||
-                                     x.UrlSegment + "/" == contentPageUrlSegment);
-            if (contentPage is null)
+            if (result == null)
             {
                 return NotFound();
             }
 
             return new ContentResult()
             {
-                Content = JSON.ToNiceJSON(new GenericContentPageModel(contentPage))
+                Content = JSON.ToNiceJSON(result)
             };
         }
 
